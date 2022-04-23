@@ -4,6 +4,8 @@ import { Button, IconButton } from '@material-ui/core'
 import Add from "@material-ui/icons/Add"
 import { AccessTime, Duo, ExpandMore, Inbox, LabelImportant, NearMe, Note,Person,Phone,Star } from '@material-ui/icons';
 import SideBarOption from './SideBarOption';
+import { useDispatch } from 'react-redux';
+import { openSendMessage } from '../../features/mailSlice';
 
 const sidebarOption_DATA = [
   {
@@ -52,11 +54,16 @@ const sidebarOption_DATA = [
 
 
 function Sidebar() {
+  const dispatch = useDispatch(); 
+
   return (
     <div className='sidebar'>
-        <Button className='sidebar_compose' startIcon={<Add fontSize="large" />}>Compose</Button>
+        <Button 
+          className='sidebar_compose' 
+          onClick={() => dispatch(openSendMessage())}
+          startIcon={<Add fontSize="large" />}>Compose</Button>
         {sidebarOption_DATA.map((option, index) => (
-          <SideBarOption Icon={option.Icon} title={option.title} number={option.number} isSelected={option.isSelected} />
+          <SideBarOption Icon={option.Icon} key={index} title={option.title} number={option.number} isSelected={option.isSelected} />
         ))}
         <div className='sidebar_footer'>
           <div className='sidebar_footerIcons'>
