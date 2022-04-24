@@ -5,14 +5,21 @@ import "./SendMail.css";
 import { useForm } from "react-hook-form"
 import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mailSlice';
+import { sendMail } from '../../firebase/firebase';
+
 
 function SendMail() {
     const dispatch = useDispatch()
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
-    const onSubmit = (data) => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        try{
+            console.log({data})
+            await sendMail({to:data.to, subject:data.subject, message:data.message})
+        }catch (err){
+            console.log(err)
+        }
     }
 
   return (

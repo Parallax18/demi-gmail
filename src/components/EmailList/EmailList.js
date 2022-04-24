@@ -1,11 +1,14 @@
 import { Checkbox, IconButton } from '@material-ui/core'
 import { ArrowDropDown, ChevronLeft, ChevronRight, Inbox, KeyboardHide, MoreVert, Redo, Settings, People, LocalOffer } from '@material-ui/icons'
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectMailState } from '../../features/mailSlice'
 import EmailCategory from './EmailCategory'
 import EmailItem from './EmailItem'
 import "./EmailList.css"
 
-function EmailList() {
+const EmailList = () => {
+   const {emails} = useSelector(selectMailState)
   return (
     <div className="emailList">
         <div className='emailList_settings'>
@@ -44,12 +47,16 @@ function EmailList() {
         </div>
 
         <div className='emailList_list'>
+
+        {emails.map((email,index)=> (
             <EmailItem
-                title={"Twitch"}
-                subject={"My fellow streamer!"}
-               description = {"This is a test"}
+                title={email.title}
+                subject={email.subject}
+                description = {email.description}
                 time={"10pm"}
-                />
+            />
+        ))}
+           
         </div>
     </div>
   )
