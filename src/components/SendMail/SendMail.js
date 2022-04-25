@@ -16,10 +16,12 @@ function SendMail() {
     const onSubmit = async (data) => {
         try{
             console.log({data})
-            await sendMail({to:data.to, subject:data.subject, message:data.message})
+            await sendMail({to:data.to, subject:data.subject, message:data.message, timeStamp:"10"})
         }catch (err){
             console.log(err)
         }
+
+        dispatch(closeSendMessage())
     }
 
   return (

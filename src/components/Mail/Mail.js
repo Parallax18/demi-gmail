@@ -3,9 +3,12 @@ import { ArrowBack, CheckCircle, Delete, Email, Error, ExitToApp, LabelImportant
 import React from 'react'
 import "./Mail.css";
 import { useHistory} from "react-router-dom"
+import { useSelector } from 'react-redux';
+import { selectMailState } from '../../features/mailSlice';
 
 function Mail() {
   const history = useHistory()
+  const { selectedMail } = useSelector(selectMailState)
   return (
     <div className='mail'>
       <div className='mail_tools'>
@@ -55,14 +58,14 @@ function Mail() {
 
       <div className='mail_body'>
         <div className='mail_bodyHeader'>
-          <h2>Subject</h2>
+          <h2>{selectedMail.subject}</h2>
           <LabelImportant className='mail_important'/>
-          <p>Title</p>
+          <p>{selectedMail.to}</p>
           <p className='mail_time'>10pm</p>
         </div>
         
         <div className='mail_message'>
-           <p>This is a message</p>
+           <p>{selectedMail.message}</p>
         </div>
       </div>
     </div>

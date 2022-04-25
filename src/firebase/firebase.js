@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app"
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
 
@@ -14,14 +15,18 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
+const auth = getAuth(firebaseApp)
+const googleProvider = new GoogleAuthProvider();
 
-const sendMail = async ({to, subject, message}) => {
+ 
+const sendMail = async ({to, subject, message, timeStamp}) => {
   try {
     console.log("sending..")
     await addDoc(collection(db, "emails"), {
       to,
       subject,
       message,
+      timeStamp
     });
   }catch(err) {
     console.log("Error!!", err.code)
@@ -30,8 +35,8 @@ const sendMail = async ({to, subject, message}) => {
   }
 }
 
-
-export { sendMail, db }
+   
+export { sendMail, db, auth, googleProvider}
 
 
 

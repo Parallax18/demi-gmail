@@ -9,35 +9,47 @@ import Sidebar from './components/Sidebar/Sidebar';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmails, selectSendMessageIsOpen } from './features/mailSlice'
 
-import { collection, query, where, onSnapshot } from "firebase/firestore"
-import { db } from './firebase/firebase';
+import { login } from "./features/userSlice"
 
-function App() {
+import { collection, query, where, onSnapshot } from "firebase/firestore"
+import { auth, db } from './firebase/firebase';
+import { selectUserState } from './features/userSlice';
+import Login from './components/Login/Login';
+import { setPersistence, browserSessionPersistence } from "firebase/auth";
+
+
+function App() {  
   const  sendMessageIsOpen = useSelector(selectSendMessageIsOpen)
   const dispatch = useDispatch()
+  const { user }  = useSelector(selectUserState)
 
   useEffect(() => {
     let unsubscribe
-    (async() => {
+    (async() => { 
       try {
-        const q = await query(collection(db, "emails"));
+        const q = query(collection(db, "emails"));
         unsubscribe = onSnapshot(q, (snapshot) => {
           snapshot.docChanges().forEach((change) => {
-          dispatch(fetchEmails( change.doc.data()))
-    });
-
-
-
-
-
-
-  });
+          dispatch(fetchEmails( change.doc.data() ))
+          });
+        });
   
       } catch (error) {
         console.log({error})
       }
   
     })()
+
+
+    auth.onAuthStateChanged(user => {
+      if(user){
+        dispatch(login({
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL
+        }))
+      }
+    }) 
 
     return ()=> unsubscribe()
 
@@ -46,6 +58,9 @@ function App() {
 
   return (
     <Router>
+      {!user ? (
+        <Login />
+      ) : (
       <div className="App">
         <Header />
 
@@ -59,7 +74,8 @@ function App() {
         </div>
 
         {sendMessageIsOpen &&  <SendMail />} 
-      </div>
+      </div>)
+      }
     </Router>
   );
 }

@@ -50,9 +50,10 @@ const EmailList = () => {
 
         {emails.map((email,index)=> (
             <EmailItem
-                title={email.title}
+                key={index}
+                to={email.to}
                 subject={email.subject}
-                description = {email.description}
+                message = {email.message}
                 time={"10pm"}
             />
         ))}
@@ -63,4 +64,4 @@ const EmailList = () => {
 }
 // 50226577
 
-export default EmailList  
+export default EmailList

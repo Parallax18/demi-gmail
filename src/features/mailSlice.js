@@ -4,7 +4,8 @@ export const mailSlice = createSlice({
   name: 'mail',
   initialState: {
       sendMessageIsOpen: false,
-      emails : []
+      emails : [],
+      selectedMail: null
   },
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -17,11 +18,14 @@ export const mailSlice = createSlice({
    fetchEmails : (state, action ) => {
        console.log("data" ,action.payload)
        state.emails.push(action.payload)
+   },
+   selectMail : (state, action) => {
+       state.selectedMail = action.payload;
    }
   },
 });
 
-export const { openSendMessage, closeSendMessage, fetchEmails } = mailSlice.actions;
+export const { openSendMessage, closeSendMessage, fetchEmails, selectMail } = mailSlice.actions;
 
 export const selectSendMessageIsOpen = (state) => state.mail.sendMessageIsOpen;
 
