@@ -1,11 +1,12 @@
 import { Button } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+import { Close, DockRounded } from '@material-ui/icons';
 import React from 'react';
 import "./SendMail.css";
 import { useForm } from "react-hook-form"
 import { useDispatch } from 'react-redux';
 import { closeSendMessage } from '../../features/mailSlice';
-import { sendMail } from '../../firebase/firebase';
+import { db, sendMail } from '../../firebase/firebase';
+import { collection, doc } from 'firebase/firestore';
 
 
 function SendMail() {
@@ -16,7 +17,9 @@ function SendMail() {
     const onSubmit = async (data) => {
         try{
             console.log({data})
-            await sendMail({to:data.to, subject:data.subject, message:data.message, timeStamp:"10"})
+            const emailRef = await doc(collection(db, "emails"))
+            const uid = emailRef.id
+            await sendMail({to:data.to, subject:data.subject, message:data.message, timeStamp:"10", isStarred:false, isImportant:false, uid: uid})
         }catch (err){
             console.log(err)
         }

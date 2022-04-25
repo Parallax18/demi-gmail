@@ -1,6 +1,7 @@
 .emailItem {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: auto;
     border-bottom: 1px solid whitesmoke;
     cursor: pointer;
@@ -15,6 +16,12 @@
 
 .emailItem_options{
     display: flex;
+}
+
+.emailItem_content{
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .emailItem_message{
@@ -48,4 +55,8 @@
 .emailItem_description{
     font-weight: 400;
     color: gray;
+}
+
+.emailItem--starred{
+    color: gold;
 }

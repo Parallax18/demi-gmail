@@ -7,7 +7,7 @@ import Mail from './components/Mail/Mail';
 import SendMail from './components/SendMail/SendMail';
 import Sidebar from './components/Sidebar/Sidebar';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmails, selectSendMessageIsOpen } from './features/mailSlice'
+import { fetchEmails, selectSendMessageIsOpen, starMail } from './features/mailSlice'
 
 import { login } from "./features/userSlice"
 
@@ -30,7 +30,15 @@ function App() {
         const q = query(collection(db, "emails"));
         unsubscribe = onSnapshot(q, (snapshot) => {
           snapshot.docChanges().forEach((change) => {
-          dispatch(fetchEmails( change.doc.data() ))
+            console.log("ttriggere")
+            if(change.type == "added"){
+              dispatch(fetchEmails( change.doc.data() ))
+              return
+            }
+            if(change.type == "modified"){
+              console.log("modified!!!", change.doc.data())
+              dispatch(starMail(change.doc.data()))
+            }
           });
         });
   
