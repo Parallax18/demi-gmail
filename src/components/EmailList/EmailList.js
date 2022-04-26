@@ -7,8 +7,9 @@ import EmailCategory from './EmailCategory'
 import EmailItem from './EmailItem'
 import "./EmailList.css"
 
-const EmailList = () => {
-   const {emails} = useSelector(selectMailState)
+const EmailList = ({emails}) => {
+    console.log("starred" , {emails})
+   
   return (
     <div className="emailList">
         <div className='emailList_settings'>
