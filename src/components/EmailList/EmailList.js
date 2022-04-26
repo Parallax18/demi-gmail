@@ -56,6 +56,7 @@ const EmailList = () => {
                 message = {email.message}
                 id={email.uid}
                 isStarred={email.isStarred}
+                isImportant={email.isImportant}
                 time={"10pm"}
             />
         ))}

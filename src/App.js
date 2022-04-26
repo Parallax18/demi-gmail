@@ -7,7 +7,7 @@ import Mail from './components/Mail/Mail';
 import SendMail from './components/SendMail/SendMail';
 import Sidebar from './components/Sidebar/Sidebar';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmails, selectSendMessageIsOpen, starMail } from './features/mailSlice'
+import { fetchEmails, selectSendMessageIsOpen, setImportant, starMail } from './features/mailSlice'
 
 import { login } from "./features/userSlice"
 
@@ -38,6 +38,7 @@ function App() {
             if(change.type == "modified"){
               console.log("modified!!!", change.doc.data())
               dispatch(starMail(change.doc.data()))
+              dispatch(setImportant(change.doc.data()))
             }
           });
         });

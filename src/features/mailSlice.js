@@ -24,17 +24,21 @@ export const mailSlice = createSlice({
        state.selectedMail = action.payload;
    },
    starMail : (state, action) => {
-       console.log(state.emails)
-       
         const filterEmails = state.emails
 
         Object.assign(filterEmails.find(email => email.uid == action.payload.uid),action.payload);
         state.emails = filterEmails
    },
+   setImportant: (state, action) => {
+        const filterEmails = state.emails
+
+        Object.assign(filterEmails.find(email => email.uid == action.payload.uid), action.payload)
+        state.emails = filterEmails
+   }
   },
 });
 
-export const { openSendMessage, closeSendMessage, fetchEmails, selectMail, starMail } = mailSlice.actions;
+export const { openSendMessage, closeSendMessage, fetchEmails, selectMail, starMail, setImportant} = mailSlice.actions;
 
 export const selectSendMessageIsOpen = (state) => state.mail.sendMessageIsOpen;
 

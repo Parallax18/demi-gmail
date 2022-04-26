@@ -14,7 +14,6 @@ function EmailItem({ to, subject, message, time, isStarred, isImportant, id }) {
 
     const handleStar = async () => {
         try{
-
             console.log("logged", isStarred)
             const mailRef = doc(db, "emails", id)
             await updateDoc(mailRef, {
@@ -23,6 +22,19 @@ function EmailItem({ to, subject, message, time, isStarred, isImportant, id }) {
             console.log("finished")
         }catch (err){
             console.log("Can not star", err)
+        }
+    }
+
+    const handleImportance = async () => {
+        try{
+            console.log("logged", isImportant)
+            const mailRef = doc(db, "emails", id)
+            await updateDoc(mailRef, {
+                isImportant: !isImportant
+            })
+            console.log("finished")
+        }catch(err){
+            console.log('can not make important', err)
         }
     }
 
@@ -41,8 +53,8 @@ function EmailItem({ to, subject, message, time, isStarred, isImportant, id }) {
             <IconButton onClick={handleStar}>
                 {isStarred ? <Star className='emailItem--starred'/> : <StarBorderOutlined />}  
             </IconButton>
-            <IconButton>
-                <LabelImportantOutlined />
+            <IconButton onClick={handleImportance}>
+                <LabelImportantOutlined className={isImportant ? "emailItem--important" : ""}/>
             </IconButton>
         </div>
         <div onClick={openMail} className='emailItem_content'>
