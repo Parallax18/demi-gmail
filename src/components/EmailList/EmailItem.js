@@ -38,8 +38,6 @@ function EmailItem({ to, subject, message, time, isStarred, isImportant, id }) {
         }
     }
 
-    
-
     const openMail = () => {
         dispatch(selectMail({
            to, subject, message, time, isStarred, isImportant, id

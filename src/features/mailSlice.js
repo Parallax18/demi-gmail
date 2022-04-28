@@ -6,6 +6,7 @@ export const mailSlice = createSlice({
       sendMessageIsOpen: false,
       emails : [],
       starredEmails: [],
+      importantEmails: [],
       selectedMail: null,
   },
   // The `reducers` field lets us define reducers and generate associated actions
@@ -35,18 +36,23 @@ export const mailSlice = createSlice({
         state.emails = Emails
    },
    fetchStarredEmails: (state, action) => {
-    //    console.log(state.emails, "starred")
-    //    const starred = state.emails.filter((email) => email.isStarred == true)
-    //    console.log("filtered ", starred)
-    //    state.starredEmails = [...starred]
-    //    console.log(state.starredEmails)
-    state.starredEmails.push(action.payload)
-   
+        state.starredEmails.push(action.payload)
+   },
+   fetchImportantEmails: (state, action) => {
+       state.importantEmails.push(action.payload)
    }
   },
 });
 
-export const { openSendMessage, closeSendMessage, fetchEmails, selectMail, starMail, setImportant, fetchStarredEmails } = mailSlice.actions;
+export const { 
+    openSendMessage, 
+    closeSendMessage, 
+    fetchEmails, 
+    selectMail, 
+    starMail, 
+    setImportant, 
+    fetchStarredEmails, 
+    fetchImportantEmails } = mailSlice.actions;
 
 export const selectSendMessageIsOpen = (state) => state.mail.sendMessageIsOpen;
 

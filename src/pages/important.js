@@ -2,13 +2,13 @@ import React from 'react'
 import EmailList from '../components/EmailList/EmailList'
 import { selectMailState } from '../features/mailSlice'
 import { useSelector } from 'react-redux'
-export const Starred = () => {
 
 
-    const { starredEmails } = useSelector(selectMailState)
-console.log("star routes ", starredEmails)
+export const Important = () => {
+    const { importantEmails } = useSelector(selectMailState)
+    console.log("important ", importantEmails)
 
   return (
-    <EmailList emails={starredEmails}  />
+    <EmailList emails={importantEmails}  />
   )
 }

@@ -7,7 +7,7 @@ import Mail from './components/Mail/Mail';
 import SendMail from './components/SendMail/SendMail';
 import Sidebar from './components/Sidebar/Sidebar';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmails, fetchStarredEmails, selectMailState, selectSendMessageIsOpen, setImportant, starMail } from './features/mailSlice'
+import { fetchEmails, fetchImportantEmails, fetchStarredEmails, selectMailState, selectSendMessageIsOpen, setImportant, starMail } from './features/mailSlice'
 
 import { login } from "./features/userSlice"
 
@@ -18,6 +18,7 @@ import Login from './components/Login/Login';
 import { setPersistence, browserSessionPersistence } from "firebase/auth";
 import Inbox from "./pages/inbox"
 import { Starred } from './pages/starred';
+import { Important } from './pages/important';
 
 function App() {  
   const  sendMessageIsOpen = useSelector(selectSendMessageIsOpen)
@@ -33,23 +34,31 @@ function App() {
         const q = query(collection(db, "emails"));
         unsubscribe = onSnapshot(q, (snapshot) => {
           snapshot.docChanges().forEach(async(change) => {
-            console.log("triggered")
+            // console.log("triggered")
             const emails = change.doc.data()
             if(change.type == "added"){
-              console.log("added!!!", emails)
+              // console.log("added!!!", emails)
               if(emails.isStarred){
-                console.log("it is starred" , emails)
+                // console.log("it is starred" , emails)
                 dispatch(fetchStarredEmails(emails))
+                return
+              }
+              if(emails.isImportant){
+                dispatch(fetchImportantEmails(emails))
               }
 
               await  dispatch(fetchEmails( emails ))
             }
             if(change.type == "modified"){
-              console.log("modified!!!")
+              // console.log("modified!!!")
               if(emails.isStarred){
-                console.log("it is here" , emails)
+                // console.log("it is here" , emails)
                 dispatch(fetchStarredEmails(emails))
-              } 
+                return
+              }
+              if(emails.isImportant){
+                dispatch(fetchImportantEmails(emails))
+              }
                await  dispatch(starMail(emails))
              await dispatch(setImportant(emails))
              
@@ -92,9 +101,9 @@ function App() {
 
           <Switch>
             <Route path="/mail"><Mail /></Route>
-            <Route exact={true} path="/starred"><Starred /> </Route>
             <Route exact={true} path="/"><Inbox /> </Route>
-            
+            <Route exact={true} path="/starred"><Starred /> </Route>
+            <Route exact={true} path="/important"><Important /></Route>
           </Switch>
         </div>
 
