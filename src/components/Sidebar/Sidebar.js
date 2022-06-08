@@ -60,7 +60,7 @@ const sidebarOption_DATA = [
 ]
 
 
-function Sidebar() {
+function Sidebar({ path }) {
   const dispatch = useDispatch(); 
   const [data] = useState(sidebarOption_DATA)
   const [selected, setSelected] = useState(1)
